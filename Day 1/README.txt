@@ -1,3 +1,19 @@
+Do advent of code! it's awesome.
+https://adventofcode.com/2023
+
+My findings:
+
+Boy, is this challenge hard when you're using a new language. This would've been too easy when it comes to using Python or even C++ simply because I know them.
+
+I have fought with the borrow checker and lost so many times, but I have learned from this. My success on this day has been largely due to reading the Rust documentation and looking at guides for small parts online.
+
+My code may not be very "Rustly", but that will come with time. The most important part is that I learned a lot about the process of moving data around in Rust.
+
+I learned about borrowing, match statements, options, strings, string slicing, testing, importing crates, and so much more. I can't wait to see hoe much more elegant, efficient, and professional my code will be after finishing this advent calendar.
+
+
+Instructions follow:
+
 --- Day 1: Trebuchet?! ---
 
 Something is wrong with global snow production, and you've been selected to take a look. The Elves have even given you a map; on it, they've used stars to mark the top fifty locations that are likely to be having problems.
