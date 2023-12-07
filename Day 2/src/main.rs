@@ -1,90 +1,61 @@
-extern crate lazy_static;
+use std::fs;
 
-use lazy_static::lazy_static;
-use std::{fs, collections::HashMap};
-
-lazy_static! {
-    static ref WORDS: HashMap<String, char> = HashMap::from([
-        ("one".to_string(), '1'),
-        ("two".to_string(), '2'),
-        ("three".to_string(), '3'),
-        ("four".to_string(), '4'),
-        ("five".to_string(), '5'),
-        ("six".to_string(), '6'),
-        ("seven".to_string(), '7'),
-        ("eight".to_string(), '8'),
-        ("nine".to_string(), '9'),
-    ]);
-}
-
-fn check_for_word(input: &str, i: usize) -> Option<char> {
-    for word in WORDS.keys() {
-        let substr = match input.get(i..i+word.len()).ok_or("Out of bounds") {
-            Ok(str)=> str,
-            _ => {continue;}
-        };
-
-        if substr == word {
-            return WORDS.get(word).copied();
+fn power_of_game(game: &str) -> i32 {
+    // remove game syntax
+    let section = match game.split_once(':') {
+        Some((_before, after)) => { after }
+        None => { return 0 }
+    };
+    // split up each hand
+    let hands = section.split(';');
+    // define the minimum number of each color
+    let mut min_red = 0;
+    let mut min_green = 0;
+    let mut min_blue = 0;
+    for hand in hands {
+        // split each hand by color
+        let colors = hand.split(',');
+        for color in colors {
+            // split color and number then determine if valid
+            let trimmed = color.trim();
+            match trimmed.split_once(' ') {
+                Some((str_number, color)) => { 
+                    let number: i32 = str_number.parse().unwrap();
+                    match color {
+                        "red" => {
+                            if number <= min_red { continue; }
+                            else { min_red = number; }
+                        }
+                        "green" => {
+                            if number <= min_green { continue; }
+                            else { min_green = number; }
+                        }
+                        "blue" => {
+                            if number <= min_blue { continue; }
+                            else { min_blue = number; }
+                        }
+                        &_ => { continue; }
+                    }
+                }
+                None => { continue; }
+            }
         }
     }
-
-    None
+    let power = min_red * min_green * min_blue;
+    power
 }
 
-fn first_number(input: &str) -> Option<char> {
-    let mut i = 0;
-
-    for c in input.chars() {
-        if c.is_digit(10) {
-            return Some(c);
-        }
-
-        match check_for_word(input, i) {
-            Some(digit) => { return Some(digit); },
-            None        => { i += 1; }
-        }
-    }
-
-    None
-}
-
-fn last_number(input: &str) -> Option<char> {
-    let mut i = 0;
-
-    for c in input.chars().rev() {
-        if c.is_digit(10) {
-            return Some(c);
-        }
-
-        match check_for_word(input, input.len() - i - 1) {
-            Some(digit) => { return Some(digit); },
-            None        => { i += 1; }
-        }
-    }
-
-    None
-}
-
-fn calculate_sum(filepath: &str) -> i32 {
+fn main() {
+    let filepath = "real_input.txt";
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
     let lines = contents.split("\n");
 
     let mut sum: i32 = 0;
     for line in lines {
-        let first = first_number(line).expect("No first digit found.");
-        let last = last_number(line).expect("No last digit found.");
-        let str_num = format!("{}{}", first, last);
-        sum += str_num.parse::<i32>().expect("Selected chars do not parse to i32");
+        sum += power_of_game(line);
     }
 
-    return sum;
-}
-
-fn main() {
-    let filepath = "real_input.txt";
-    let sum = calculate_sum(filepath);
-        println!("The sum is: {}", sum);
+    println!("{}", sum);
 }
 
 #[cfg(test)]
@@ -92,30 +63,11 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_first() {
-        assert_eq!(first_number(&"1abc2").unwrap(), '1');
-        assert_eq!(first_number(&"pqr3stu8vwx").unwrap(), '3');
-        assert_eq!(first_number(&"ab12cd34ef").unwrap(), '1');
-        assert_eq!(first_number(&"treb7uchet").unwrap(), '7');
-    }
-
-    #[test]
-    fn test_last() {
-        assert_eq!(last_number(&"1abc2").unwrap(), '2');
-        assert_eq!(last_number(&"pqr3stu8vwx").unwrap(), '8');
-        assert_eq!(last_number(&"ab12cd34ef").unwrap(), '4');
-        assert_eq!(last_number(&"treb7uchet").unwrap(), '7');
-    }
-
-    #[test]
-    fn test_calc_one() {
-        let filepath = "part_one_test_input.txt";
-        assert_eq!(calculate_sum(filepath), 142)
-    }
-
-    #[test]
-    fn test_calc_two() {
-        let filepath = "part_two_test_input.txt";
-        assert_eq!(calculate_sum(filepath), 281)
+    fn test_power() {
+        assert_eq!(power_of_game(&"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"), 48);
+        assert_eq!(power_of_game(&"Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue"), 12);
+        assert_eq!(power_of_game(&"Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"), 1560);
+        assert_eq!(power_of_game(&"Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"), 630);
+        assert_eq!(power_of_game(&"Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"), 36);
     }
 }

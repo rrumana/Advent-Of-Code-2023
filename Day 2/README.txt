@@ -3,6 +3,13 @@ https://adventofcode.com/2023
 
 My findings:
 
+I am super satisfied with my results today. This solutiononly took me about 2 hours total for the both parts and I hardly needed to look outside the documentation and the compiler for answers to my questions.
+
+Maybe today was just an easy day, but I choose to believe that I am better at rust than I was yesterday.
+
+There is definetly a downside to me doing this project with only the documentation: I probably did it wrong. Like it gets the right answer and all but I can't shake the feeling that I did things that aren't the rust way. I found myself doubting if I was taking the right approach towards string manipulation, data copying, and references.
+
+I am sure that this will come with practice but my current code feels very noobish. I am still very happy to be writing code more independently.
 
 Instructions follow:
 
