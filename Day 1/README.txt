@@ -11,7 +11,6 @@ My code may not be very "Rustly", but that will come with time. The most importa
 
 I learned about borrowing, match statements, options, strings, string slicing, testing, importing crates, and so much more. I can't wait to see hoe much more elegant, efficient, and professional my code will be after finishing this advent calendar.
 
-
 Instructions follow:
 
 --- Day 1: Trebuchet?! ---
@@ -38,3 +37,5 @@ treb7uchet
 In this example, the calibration values of these four lines are 12, 38, 15, and 77. Adding these together produces 142.
 
 Consider your entire calibration document. What is the sum of all of the calibration values?
+
+DISCLAIMER: This code is mine in the sense that the solution is unique, but I have borrowed and reworked code snippets from Rust documentation as well as tutorials for opening files, using lazy_static, and iterating through a string using substrings. The goal is to become more independent and become better at using these tools from memory as time goes on, but I am not there yet. Maybe by the end of this I will be.
