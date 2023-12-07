@@ -1,6 +1,5 @@
 [package]
-name = "trebuchet"
+name = "cube_conundrum"
 version  = "0.1.0"
 
 [dependencies]
-lazy_static = "1.4.0"
