@@ -107,13 +107,3 @@ fn main() {
     println!("Part one answer: {}", total_one);
     println!("Part two answer: {}", total_two);
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_sanity() {
-        assert_eq!(1,1);
-    }
-}
