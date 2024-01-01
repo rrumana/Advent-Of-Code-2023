@@ -1,26 +1,26 @@
 use std::fs::read_to_string;
 use std::collections::HashSet;
-use std::convert::TryInto;
 
 #[derive(Debug)]
 struct Card {
-    card: i64,
     winning: HashSet<i64>,
     numbers: HashSet<i64>
 } impl Card {
-    fn new(card: i64, winning: HashSet<i64>, numbers: HashSet<i64>,) -> Self {
+    fn new(winning: HashSet<i64>, numbers: HashSet<i64>,) -> Self {
         Self {
-            card: card,
             winning: winning,
             numbers: numbers
         }
     }
 
-    fn get_score(&self) -> i64 {
-        let count = self
-            .winning
+    fn count(&self) -> usize {
+        self.winning
             .intersection(&self.numbers)
-            .count();
+            .count()
+    }
+
+    fn get_score(&self) -> i64 {
+        let count = self.count();
         if count > 0 {
             1 << (count -1)
         } else {
@@ -33,8 +33,17 @@ fn part_one(cards: &Vec<Card>) -> i64 {
     cards.iter().map(Card::get_score).sum::<i64>()
 }
 
-fn part_two() -> i64 {
-    return 0;
+fn part_two(cards: &Vec<Card>) -> usize {
+    let mut multiplier = vec![1usize; cards.len()];
+
+    for (index, card) in cards.iter().enumerate() {
+        let count = card.count();
+        for i in index + 1..index + 1 + count {
+            multiplier[i] += multiplier[index];
+        }
+    }
+
+    multiplier.iter().sum::<usize>()
 }
 
 fn main() {
@@ -62,22 +71,12 @@ fn main() {
             .map(|snum| snum.parse::<i64>().unwrap())
             .collect::<HashSet<_>>();
 
-        cards.push(Card::new((cards.len()+1).try_into().unwrap(), winning_nums, chosen_nums));
+        cards.push(Card::new(winning_nums, chosen_nums));
     }
 
     let total_one: i64 = part_one(&cards);
-    let total_two: i64 = part_two();
+    let total_two: usize = part_two(&cards);
 
     println!("Part one answer: {}", total_one);
     println!("Part two answer: {}", total_two);
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_sanity() {
-        assert_eq!(1,1);
-    }
 }
