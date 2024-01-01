@@ -3,7 +3,13 @@ https://adventofcode.com/2023
 
 My findings:
 
+I still struggle with styring manipulation very much. I was diving down a rabbit hole for almost 3 hours trying to get a single line to break up the way I wanted it to because I didn't know which traits I had access to and I was looking in the wrong area to find my answers. In the end the soluton was much simpler and much more elegant than the one I was trying to implement was, as it always seems to be.
 
+This challenge was very easy from a calculation side, a nice refresher from the day before, the only real challenge was getting the data to be divided up that way I wanted it to be divided.
+
+The problem was also written in such a way that I got the wrong solution for part 2 at first, even though my implementation was correct, my approach was wrong.
+
+I need to slow down and take more time to think of the correct way to do things, and to also explore the myriad of methods available to me when it comes to string parsing and manipulation.
 
 Instructions follow:
 
