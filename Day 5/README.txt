@@ -3,7 +3,9 @@ https://adventofcode.com/2023
 
 My findings:
 
+I had a brute force algorithm that worked like a charm for the smaller input, but then quickly filled my memory with billions of hash map entries. It would have worked though, if I were brave enough to let it start eating away at my disk as a cache
 
+My current implementation has bugs, but works sometimes.
 
 Instructions follow:
 
